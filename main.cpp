@@ -7,6 +7,7 @@ using namespace std;
 
 int iSqCycle (int arr[], int size);
 int CreateFiles (string name1, string name2);
+int FileMerge (string header, string name1, string name2);
 
 int main()
 {
@@ -54,16 +55,63 @@ int main()
 //    delete[] ptrArrMatrix;
 //    ptrArrMatrix = nullptr;
 
-    //Task3
-    string name1, name2;
+    //Task3 and Task4
+    string name1, name2, header;
     cout << "Enter the name of the first file: ";
     cin >> name1;
     name1 = name1+".txt";
     cout << "Enter the name of the second file: ";
     cin >> name2;
     name2 = name2+".txt";
-    CreateFiles (name1, name2);
+    cout << "Enter the name of the merged file: ";
+    cin >> header;
+    header = header+".txt";
 
+    CreateFiles (name1, name2);
+    FileMerge(header,name1,name2);
+
+    return 0;
+}
+
+int FileMerge (string header, string name1, string name2)
+{
+    ofstream fsub(header);
+    ifstream fin1(name1);
+    ifstream fin2(name2);
+
+    if (fin1.is_open())
+    {
+        const size_t size = 1000;
+        char buf1[size];
+        while (!fin1.eof())
+            {
+            fin1.getline(buf1, size);
+            fsub << buf1;
+            }
+
+        fin1.close();
+        }
+    else
+        {
+        cout << "Error. Can't open a file";
+        }
+
+    if (fin2.is_open())
+    {
+        const size_t size = 1000;
+        char buf2[size];
+        while (!fin2.eof())
+            {
+            fin2.getline(buf2, size);
+            fsub << buf2;
+            fsub.close();
+            }
+        fin2.close();
+        }
+    else
+        {
+        cout << "Error. Can't open a file";
+        }
     return 0;
 }
 
